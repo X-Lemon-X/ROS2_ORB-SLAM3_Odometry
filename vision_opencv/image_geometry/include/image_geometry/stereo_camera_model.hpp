@@ -1,7 +1,7 @@
-#ifndef IMAGE_GEOMETRY__STEREO_CAMERA_MODEL_H
-#define IMAGE_GEOMETRY__STEREO_CAMERA_MODEL_H
+#ifndef IMAGE_GEOMETRY__STEREO_CAMERA_MODEL_HPP_
+#define IMAGE_GEOMETRY__STEREO_CAMERA_MODEL_HPP_
 
-#include "image_geometry/pinhole_camera_model.h"
+#include "image_geometry/pinhole_camera_model.hpp"
 #include "image_geometry/visibility_control.hpp"
 
 namespace image_geometry {
@@ -72,8 +72,9 @@ public:
   IMAGE_GEOMETRY_PUBLIC
   void projectDisparityImageTo3d(const cv::Mat& disparity, cv::Mat& point_cloud,
                                  bool handleMissingValues = false) const;
+  IMAGE_GEOMETRY_PUBLIC
   static const double MISSING_Z;
-  
+
   /**
    * \brief Returns the disparity reprojection matrix.
    */
@@ -151,4 +152,4 @@ inline double StereoCameraModel::getDisparity(double Z) const
 
 }  // namespace image_geometry
 
-#endif
+#endif  // IMAGE_GEOMETRY__STEREO_CAMERA_MODEL_HPP_

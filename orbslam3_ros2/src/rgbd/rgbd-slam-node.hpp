@@ -1,65 +1,68 @@
 #ifndef __RGBD_SLAM_NODE_HPP__
 #define __RGBD_SLAM_NODE_HPP__
 
-#include <iostream>
 #include <algorithm>
-#include <fstream>
 #include <chrono>
+#include <fstream>
+#include <iostream>
 
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/image.hpp"
 
 #include "message_filters/subscriber.h"
-#include "message_filters/synchronizer.h"
 #include "message_filters/sync_policies/approximate_time.h"
+#include "message_filters/synchronizer.h"
 
-#include <cv_bridge/cv_bridge.h>
+#include <cv_bridge/cv_bridge.hpp>
 
-#include <nav_msgs/msg/odometry.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
+#include <nav_msgs/msg/odometry.hpp>
 #include <tf2_ros/transform_broadcaster.h>
 
-#include "System.h"
 #include "Frame.h"
 #include "Map.h"
+#include "System.h"
 #include "Tracking.h"
 
 #include "utility.hpp"
 
 class RgbdSlamNode : public rclcpp::Node
 {
-public:
-    RgbdSlamNode(ORB_SLAM3::System* pSLAM);
+ public:
+  RgbdSlamNode(ORB_SLAM3::System* pSLAM);
 
-    ~RgbdSlamNode();
+  ~RgbdSlamNode();
 
-private:
-    using ImageMsg = sensor_msgs::msg::Image;
-    typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::msg::Image, sensor_msgs::msg::Image> approximate_sync_policy;
+ private:
+  using ImageMsg = sensor_msgs::msg::Image;
+  typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::msg::Image,
+                                                          sensor_msgs::msg::Image>
+    approximate_sync_policy;
 
-    void GrabRGBD(const sensor_msgs::msg::Image::SharedPtr msgRGB, const sensor_msgs::msg::Image::SharedPtr msgD);
-    
-    rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
+  void GrabRGBD(const sensor_msgs::msg::Image::SharedPtr msgRGB,
+                const sensor_msgs::msg::Image::SharedPtr msgD);
 
-    // TF broadcaster
-    std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
+  rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
 
-    ORB_SLAM3::System* m_SLAM;
+  // TF broadcaster
+  std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
-    // Previous camera pose
-    Sophus::SE3f prev_pose_;
-    bool has_prev_pose_ = false;
+  ORB_SLAM3::System* m_SLAM;
 
-    // Accumulated odometry pose
-    Sophus::SE3f accumulated_pose_;
+  // Previous camera pose
+  Sophus::SE3f prev_pose_;
+  bool has_prev_pose_ = false;
 
-    cv_bridge::CvImageConstPtr cv_ptrRGB;
-    cv_bridge::CvImageConstPtr cv_ptrD;
+  // Accumulated odometry pose
+  Sophus::SE3f accumulated_pose_;
 
-    std::shared_ptr<message_filters::Subscriber<sensor_msgs::msg::Image> > rgb_sub;
-    std::shared_ptr<message_filters::Subscriber<sensor_msgs::msg::Image> > depth_sub;
+  cv_bridge::CvImageConstPtr cv_ptrRGB;
+  cv_bridge::CvImageConstPtr cv_ptrD;
 
-    std::shared_ptr<message_filters::Synchronizer<approximate_sync_policy> > syncApproximate;
+  std::shared_ptr<message_filters::Subscriber<sensor_msgs::msg::Image>> rgb_sub;
+  std::shared_ptr<message_filters::Subscriber<sensor_msgs::msg::Image>> depth_sub;
+
+  std::shared_ptr<message_filters::Synchronizer<approximate_sync_policy>> syncApproximate;
 };
 
 #endif

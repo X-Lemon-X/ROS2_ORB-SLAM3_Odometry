@@ -2,17 +2,41 @@
 Changelog for package image_geometry
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.2.1 (2022-09-21)
+4.1.0 (2024-04-19)
+------------------
+* Handle upstream deprecation of numpy.matrix, by deprecating methods that return numpy.matrix (`#527 <https://github.com/ros-perception/vision_opencv/issues/527>`_)
+* Introduce new methods which return numpy.ndarray, that follow python coding style (snake_case) (`#527 <https://github.com/ros-perception/vision_opencv/issues/527>`_)
+* Add tests for deprecated members, fix a few discovered bugs (`#527 <https://github.com/ros-perception/vision_opencv/issues/527>`_)
+* Enable tests that were disabled during ros 2 port (`#527 <https://github.com/ros-perception/vision_opencv/issues/527>`_)
+* Add python3-deprecated dependency (`#527 <https://github.com/ros-perception/vision_opencv/issues/527>`_)
+* Add rectify_image test (`#527 <https://github.com/ros-perception/vision_opencv/issues/527>`_)
+* Contributors: Kenji Brameld, Scott Monaghan
+
+4.0.0 (2024-04-13)
+------------------
+* Add unit tests for all public members (`#526 <https://github.com/ros-perception/vision_opencv/pull/526>`_)
+* Remove header files that were deprecated in I-turtle (`#517 <https://github.com/ros-perception/vision_opencv/issues/517>`_)
+* Use c++17 (`#515 <https://github.com/ros-perception/vision_opencv/issues/515>`_)
+* Remove unused travis file
+* Contributors: Kenji Brameld, Scott Monaghan, andrea, ijnek
+
+3.4.0 (2022-10-03)
+------------------
+* Add fovX and fovY functions in python, cpp (`#493 <https://github.com/ros-perception/vision_opencv/issues/493>`_)
+* Contributors: Chris Thierauf, Kenji Brameld
+
+3.3.1 (2022-09-21)
 ------------------
 
-3.2.0 (2022-09-14)
+3.3.0 (2022-09-14)
 ------------------
-* Add apache license and bsd license, because both are used. (`#483 <https://github.com/ros-perception/vision_opencv/issues/483>`_)
-* Reorganize author tag (`#469 <https://github.com/ros-perception/vision_opencv/issues/469>`_)
-* Add description of MISSING_Z (`#466 <https://github.com/ros-perception/vision_opencv/issues/466>`_)
+* Add apache license and bsd license, because both are used. (`#479 <https://github.com/ros-perception/vision_opencv/issues/479>`_)
+* Deprecate .h files in favor of .hpp headers (`#448 <https://github.com/ros-perception/vision_opencv/issues/448>`_)
+* Reorganize author tag (`#460 <https://github.com/ros-perception/vision_opencv/issues/460>`_)
+* Add description of MISSING_Z (`#454 <https://github.com/ros-perception/vision_opencv/issues/454>`_)
 * Fix visibility of static const data member MISSING_Z (`#442 <https://github.com/ros-perception/vision_opencv/issues/442>`_)
 * Update maintainers (`#451 <https://github.com/ros-perception/vision_opencv/issues/451>`_)
-* Contributors: Kenji Brameld
+* Contributors: Kenji Brameld, Wolf Vollprecht
 
 3.0.3 (2022-04-01)
 ------------------

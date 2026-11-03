@@ -14,7 +14,7 @@
 
 #include <sstream>
 
-#include "cv_bridge/cv_bridge.h"
+#include "cv_bridge/cv_bridge.hpp"
 #include "image_transport/image_transport.hpp"
 #include "opencv2/core/mat.hpp"
 #include "opencv2/highgui.hpp"
@@ -22,7 +22,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/header.hpp"
 
-int main(int argc, char ** argv)
+int
+main(int argc, char** argv)
 {
   // Check if video source has been passed as a parameter
   if (argv[1] == NULL) {

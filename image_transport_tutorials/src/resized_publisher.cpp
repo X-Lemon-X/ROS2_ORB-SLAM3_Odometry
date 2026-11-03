@@ -16,24 +16,25 @@
 
 #include <memory>
 
-#include "cv_bridge/cv_bridge.h"
+#include "cv_bridge/cv_bridge.hpp"
 #include "opencv2/core/mat.hpp"
 #include "opencv2/imgproc.hpp"
 #include "rclcpp/logging.hpp"
 
-void ResizedPublisher::publish(
-  const sensor_msgs::msg::Image & message,
-  const PublishFn & publish_fn) const
+void
+ResizedPublisher::publish(const sensor_msgs::msg::Image& message,
+                          const PublishFn& publish_fn) const
 {
   cv::Mat cv_image;
   std::shared_ptr<void const> tracked_object;
   try {
     cv_image = cv_bridge::toCvShare(message, tracked_object, message.encoding)->image;
-  } catch (const cv::Exception & e) {
+  } catch (const cv::Exception& e) {
     auto logger = rclcpp::get_logger("resized_publisher");
-    RCLCPP_ERROR(
-      logger, "Could not convert from '%s' to '%s'.",
-      message.encoding.c_str(), message.encoding.c_str());
+    RCLCPP_ERROR(logger,
+                 "Could not convert from '%s' to '%s'.",
+                 message.encoding.c_str(),
+                 message.encoding.c_str());
     return;
   }
 
@@ -48,6 +49,7 @@ void ResizedPublisher::publish(
   image_transport_tutorials::msg::ResizedImage resized_image;
   resized_image.original_height = cv_image.rows;
   resized_image.original_width = cv_image.cols;
-  resized_image.image = *(cv_bridge::CvImage(message.header, "bgr8", cv_image).toImageMsg());
+  resized_image.image =
+    *(cv_bridge::CvImage(message.header, "bgr8", cv_image).toImageMsg());
   publish_fn(resized_image);
 }

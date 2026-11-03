@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "cv_bridge/cv_bridge.h"
+#include "cv_bridge/cv_bridge.hpp"
 #include "image_transport/image_transport.hpp"
 #include "opencv2/core/mat.hpp"
 #include "opencv2/imgcodecs.hpp"
 #include "rclcpp/rclcpp.hpp"
 
-int main(int argc, char ** argv)
+int
+main(int argc, char** argv)
 {
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions options;
@@ -28,7 +29,8 @@ int main(int argc, char ** argv)
 
   cv::Mat image = cv::imread(argv[1], cv::IMREAD_COLOR);
   std_msgs::msg::Header hdr;
-  sensor_msgs::msg::Image::SharedPtr msg = cv_bridge::CvImage(hdr, "bgr8", image).toImageMsg();
+  sensor_msgs::msg::Image::SharedPtr msg =
+    cv_bridge::CvImage(hdr, "bgr8", image).toImageMsg();
 
   rclcpp::WallRate loop_rate(5);
   while (rclcpp::ok()) {

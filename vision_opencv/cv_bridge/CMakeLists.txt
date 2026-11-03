@@ -3,16 +3,22 @@ project(cv_bridge)
 
 find_package(ament_cmake_ros REQUIRED)
 
-# Default to C++14
+# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra)
 endif()
 
+option(CV_BRIDGE_DISABLE_PYTHON "Disable building Python bindings" OFF)
+
 if(ANDROID)
+  set(CV_BRIDGE_DISABLE_PYTHON ON)
+endif()
+
+if(CV_BRIDGE_DISABLE_PYTHON)
   find_package(Boost REQUIRED)
   set(boost_python_target "")
 else()
@@ -33,10 +39,11 @@ else()
   endif()
 endif()
 
+find_package(rclcpp REQUIRED)
 find_package(rcpputils REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-find_package(OpenCV 4.12 QUIET
+find_package(OpenCV 4 QUIET
   COMPONENTS
     opencv_core
     opencv_imgproc
@@ -53,7 +60,7 @@ if(NOT OpenCV_FOUND)
   )
 endif()
 
-if(NOT ANDROID)
+if(NOT CV_BRIDGE_DISABLE_PYTHON)
   ament_python_install_package(${PROJECT_NAME}
     PACKAGE_DIR python/${PROJECT_NAME}
   )
@@ -74,6 +81,7 @@ endif()
 ament_export_dependencies(
   OpenCV
   sensor_msgs
+  rclcpp
 )
 
 ament_export_targets(export_${PROJECT_NAME})

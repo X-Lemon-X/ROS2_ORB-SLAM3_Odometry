@@ -1,5 +1,9 @@
 # add library
-add_library(${PROJECT_NAME} cv_bridge.cpp rgb_colors.cpp)
+add_library(${PROJECT_NAME}
+  cv_bridge.cpp
+  cv_mat_sensor_msgs_image_type_adapter.cpp
+  rgb_colors.cpp
+)
 include(GenerateExportHeader)
 generate_export_header(${PROJECT_NAME} EXPORT_FILE_NAME ${PROJECT_NAME}/${PROJECT_NAME}_export.h)
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -10,7 +14,9 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
   ${sensor_msgs_TARGETS}
   opencv_core
   opencv_imgproc
-  opencv_imgcodecs)
+  opencv_imgcodecs
+  rclcpp::rclcpp
+)
 target_link_libraries(${PROJECT_NAME} PRIVATE
   Boost::headers
   rcpputils::rcpputils)
@@ -25,17 +31,13 @@ install(FILES
   ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/${PROJECT_NAME}_export.h
   DESTINATION include/${PROJECT_NAME}/${PROJECT_NAME})
 
-if(NOT ANDROID)
-  Python3_add_library(${PROJECT_NAME}_boost MODULE module.cpp module_opencv3.cpp)
+if(NOT CV_BRIDGE_DISABLE_PYTHON)
+  Python3_add_library(${PROJECT_NAME}_boost MODULE module.cpp module_opencv4.cpp)
   target_link_libraries(${PROJECT_NAME}_boost PRIVATE
     ${PROJECT_NAME}
     ${boost_python_target}
     Python3::NumPy)
   target_compile_definitions(${PROJECT_NAME}_boost PRIVATE PYTHON3)
-
-  if (MSVC)
-    target_compile_definitions(${PROJECT_NAME}_boost PRIVATE -DBOOST_PYTHON_STATIC_LIB -DHAVE_SNPRINTF)
-  endif()
 
   if(OpenCV_VERSION_MAJOR VERSION_EQUAL 4)
     target_compile_definitions(${PROJECT_NAME}_boost PRIVATE OPENCV_VERSION_4)

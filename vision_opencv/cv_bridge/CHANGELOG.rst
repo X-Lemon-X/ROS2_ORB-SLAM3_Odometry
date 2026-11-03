@@ -2,20 +2,41 @@
 Changelog for package cv_bridge
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-3.2.1 (2022-09-21)
+4.1.0 (2024-04-19)
 ------------------
-* silence dperecation warnings using boost macros (`#492 <https://github.com/ros-perception/vision_opencv/issues/492>`_)
+
+4.0.0 (2024-04-13)
+------------------
+* Decode images in mode IMREAD_UNCHANGED (`#520 <https://github.com/ros-perception/vision_opencv/issues/520>`_)
+* Remove header files that were deprecated in I-turtle (`#517 <https://github.com/ros-perception/vision_opencv/issues/517>`_)
+* Fixed converstion for 32FC1 (`#514 <https://github.com/ros-perception/vision_opencv/issues/514>`_)
+* Allow users to override encoding string in ROSCvMatContainer (`#505 <https://github.com/ros-perception/vision_opencv/issues/505>`_)
+* Ensure dynamic scaling works when given matrix with inf, -inf and nan values. (`#498 <https://github.com/ros-perception/vision_opencv/issues/498>`_)
+* Add new CMake option CV_BRIDGE_DISABLE_PYTHON to cv_bridge to disable building Python support if desired (`#494 <https://github.com/ros-perception/vision_opencv/issues/494>`_)
+* Contributors: Alejandro Hernández Cordero, Christian Rauch, Kenji Brameld, Lightech, Yadunund, ijnek
+
+3.4.0 (2022-10-03)
+------------------
+
+3.3.1 (2022-09-21)
+------------------
+* export rclcpp as dependency (`#491 <https://github.com/ros-perception/vision_opencv/issues/491>`_)
+* silence dperecation warnings using boost macros (`#478 <https://github.com/ros-perception/vision_opencv/issues/478>`_)
 * Contributors: Kenji Brameld
 
-3.2.0 (2022-09-14)
+3.3.0 (2022-09-14)
 ------------------
-* Add apache license and bsd license, because both are used. (`#483 <https://github.com/ros-perception/vision_opencv/issues/483>`_)
-* Fix 16U encoding type (`#463 <https://github.com/ros-perception/vision_opencv/issues/463>`_)
-* Reorganize author tag (`#469 <https://github.com/ros-perception/vision_opencv/issues/469>`_)
+* Add apache license and bsd license, because both are used. (`#479 <https://github.com/ros-perception/vision_opencv/issues/479>`_)
+* Remove opencv2.cpp and rename opencv3.cpp to opencv4.cpp (`#480 <https://github.com/ros-perception/vision_opencv/issues/480>`_)
+* Deprecate .h files in favor of .hpp headers (`#448 <https://github.com/ros-perception/vision_opencv/issues/448>`_)
+* Reorganize author tag (`#460 <https://github.com/ros-perception/vision_opencv/issues/460>`_)
+* Add colormap argument to python wrapper (`#452 <https://github.com/ros-perception/vision_opencv/issues/452>`_)
+* Fix 16U encoding type (`#459 <https://github.com/ros-perception/vision_opencv/issues/459>`_)
+* Add type adapter for cv::Mat (`#441 <https://github.com/ros-perception/vision_opencv/issues/441>`_)
 * Update maintainers (`#451 <https://github.com/ros-perception/vision_opencv/issues/451>`_)
 * Fix ModuleNotFoundError: No module named 'cv_bridge' error (`#444 <https://github.com/ros-perception/vision_opencv/issues/444>`_)
 * Make python3-opencv from test_depend to depend tag in package.xml (`#439 <https://github.com/ros-perception/vision_opencv/issues/439>`_)
-* Contributors: Daisuke Nishimatsu, Kenji Brameld, RachelRen05
+* Contributors: Daisuke Nishimatsu, Kenji Brameld, Marcel Zeilinger, RachelRen05
 
 3.0.3 (2022-04-01)
 ------------------

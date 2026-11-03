@@ -16,13 +16,14 @@
 
 #include <memory>
 
-#include "cv_bridge/cv_bridge.h"
+#include "cv_bridge/cv_bridge.hpp"
 #include "opencv2/core/mat.hpp"
 #include "opencv2/imgproc.hpp"
 
-void ResizedSubscriber::internalCallback(
-  const image_transport_tutorials::msg::ResizedImage::ConstSharedPtr & msg,
-  const Callback & user_cb)
+void
+ResizedSubscriber::internalCallback(
+  const image_transport_tutorials::msg::ResizedImage::ConstSharedPtr& msg,
+  const Callback& user_cb)
 {
   // This is only for optimization, not to copy the image
   std::shared_ptr<void const> tracked_object_tmp;
