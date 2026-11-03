@@ -1,5 +1,8 @@
 # ROS 2 ORB-SLAM3 Odometry Wrapper
 
+> **Stereo-inertial (OAK-D):** use the new `stereo_inertial_slam` node with control services
+> and map save/load. See [orbslam3_ros2/STEREO_INERTIAL_OAKD.md](orbslam3_ros2/STEREO_INERTIAL_OAKD.md).
+
 This package provides a **ROS 2 interface for [ORB-SLAM3](https://github.com/Robo-Dude/ORB-SLAM3_Ubuntu24.04.git)**.  
 It links directly against the compiled **`libORB_SLAM3.so`** library and exposes SLAM-estimated **camera pose** as standard ROS 2 messages:
 

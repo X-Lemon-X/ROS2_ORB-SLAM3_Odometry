@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>orbslam3</name>
-  <version>1.0.0</version>
-  <description>ROS2 wrapper for ORB_SLAM3 library</description>
+  <version>1.1.0</version>
+  <description>ROS 2 wrapper for the ORB-SLAM3 library (stereo-inertial node with control services)</description>
   <maintainer email="zang09@naver.com">Haebeom Jung</maintainer>
   <license>MIT</license>
   <author>Haebeom Jung</author>
@@ -12,9 +12,24 @@
 
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
   <depend>cv_bridge</depend>
   <depend>message_filters</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+  <depend>tf2_eigen</depend>
+  <depend>eigen</depend>
   <depend>Pangolin</depend>
+
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>tf2_ros_py</exec_depend>
+
+  <test_depend>ament_cmake_gtest</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

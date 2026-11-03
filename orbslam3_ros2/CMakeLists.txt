@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.18)
 project(orbslam3)
 
 # You should set the PYTHONPATH to your own python site-packages path
@@ -76,9 +76,52 @@ ament_target_dependencies(stereo-inertial-fix rclcpp sensor_msgs cv_bridge ORB_S
 
 install(TARGETS mono rgbd stereo stereo-inertial stereo-inertial-fix DESTINATION lib/${PROJECT_NAME})
 
-# Install launch files.
-#install(DIRECTORY launch config vocabulary
-#  DESTINATION share/${PROJECT_NAME}/)
+# ---------------------------------------------------------------------------
+# Stereo-inertial SLAM node with control services (recommended entry point)
+# ---------------------------------------------------------------------------
+find_package(OpenCV REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_eigen REQUIRED)
+find_package(Eigen3 REQUIRED)
+
+add_executable(stereo_inertial_slam
+  src/stereo_inertial/main.cpp
+  src/stereo_inertial/stereo_inertial_slam_node.cpp
+)
+target_include_directories(stereo_inertial_slam PRIVATE src/stereo_inertial)
+set_target_properties(stereo_inertial_slam PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
+ament_target_dependencies(stereo_inertial_slam
+  rclcpp sensor_msgs nav_msgs geometry_msgs std_msgs std_srvs
+  cv_bridge tf2 tf2_ros tf2_eigen ORB_SLAM3 Pangolin OpenCV)
+target_link_libraries(stereo_inertial_slam Eigen3::Eigen)
+install(TARGETS stereo_inertial_slam DESTINATION lib/${PROJECT_NAME})
+
+# Unit tests for the ROS-free sync / pose logic (colcon test)
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  ament_add_gtest(test_stereo_inertial_core test/test_stereo_inertial_core.cpp)
+  target_include_directories(test_stereo_inertial_core PRIVATE src/stereo_inertial)
+  set_target_properties(test_stereo_inertial_core PROPERTIES CXX_STANDARD 17)
+  target_link_libraries(test_stereo_inertial_core Eigen3::Eigen)
+endif()
+
+# Vocabulary: unpack the shipped archive at build time so the launch file can find it.
+set(ORBVOC_TXT ${CMAKE_CURRENT_SOURCE_DIR}/vocabulary/ORBvoc.txt)
+if(NOT EXISTS ${ORBVOC_TXT})
+  set(ORBVOC_TXT ${CMAKE_CURRENT_BINARY_DIR}/vocabulary/ORBvoc.txt)
+  if(NOT EXISTS ${ORBVOC_TXT})
+    message(STATUS "Extracting ORBvoc.txt.tar.gz ...")
+    file(ARCHIVE_EXTRACT
+      INPUT ${CMAKE_CURRENT_SOURCE_DIR}/vocabulary/ORBvoc.txt.tar.gz
+      DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/vocabulary)
+  endif()
+endif()
+install(FILES ${ORBVOC_TXT} DESTINATION share/${PROJECT_NAME}/vocabulary)
+
+install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME}/)
+install(PROGRAMS scripts/make_orbslam3_config.py DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
 

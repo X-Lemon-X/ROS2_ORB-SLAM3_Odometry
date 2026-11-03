@@ -1,0 +1,38 @@
+# depthai_ros_driver parameters for ORB-SLAM3 stereo-inertial on an OAK-D.
+# Node name must match the launch (default "oak").
+#
+# Parameter names follow depthai-ros v2 (Jazzy). If the driver complains about a
+# parameter, check the available ones with:  ros2 param list /oak
+/oak:
+  ros__parameters:
+    camera:
+      # Only the two mono cameras + stereo: no RGB, no neural network (less USB / CPU load)
+      i_pipeline_type: Stereo
+      i_nn_type: none
+      i_enable_imu: true
+      # OAK-D Pro: the IR dot projector paints dots that move with the camera and
+      # create fake features. Keep it off for visual SLAM (flood light is fine).
+      i_enable_ir: false
+      i_laser_dot_brightness: 0
+      i_floodlight_brightness: 0
+
+    left:
+      i_publish_topic: false
+      i_resolution: "400P"
+      i_fps: 30.0
+    right:
+      i_publish_topic: false
+      i_resolution: "400P"
+      i_fps: 30.0
+
+    stereo:
+      # Rectified pair with identical timestamps -> what ORB-SLAM3 "Rectified" expects
+      i_publish_left_rect: true
+      i_publish_right_rect: true
+      i_publish_synced_rect_pair: true
+
+    imu:
+      # Accelerometer interpolated to gyro timestamps: one combined sample per gyro reading
+      i_sync_method: "LINEAR_INTERPOLATE_ACCEL"
+      i_message_type: "IMU"
+      i_batch_report_threshold: 1
